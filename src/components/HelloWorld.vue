@@ -1,36 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { useCounter } from '@/composables/useCounter';
 
-defineProps<{ msg: string }>()
+defineProps<{
+  msg: string
+}>()
 
-const count = ref(0)
+const { count, increment, decrement, reset } = useCounter()
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
+  <div class="space-y-6 flex flex-col items-center">
+    <h1 class="text-3xl font-bold">{{ msg }}</h1>
 
-  <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
-    <p>
-      Edit
-      <code>components/HelloWorld.vue</code> to test HMR
-    </p>
+    <div class="space-y-4 flex flex-col items-center">
+      <p class="text-lg">Count: {{ count }}</p>
+      <div class="flex gap-2 justify-center">
+        <button @click="increment" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+          +
+        </button>
+        <button @click="decrement" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">
+          -
+        </button>
+        <button @click="reset" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors">
+          Reset
+        </button>
+      </div>
+    </div>
   </div>
-
-  <p>
-    Check out
-    <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank">create-vue</a>, the official Vue + Vite
-    starter
-  </p>
-  <p>
-    Learn more about IDE Support for Vue in the
-    <a href="https://vuejs.org/guide/scaling-up/tooling.html#ide-support" target="_blank">Vue Docs Scaling up Guide</a>.
-  </p>
-  <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
 </template>
-
-<style scoped>
-.read-the-docs {
-  color: #888;
-}
-</style>
