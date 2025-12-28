@@ -23,6 +23,15 @@ export default defineConfig({
   },
   test: {
     projects: [
+      // Unit tests project
+      {
+        test: {
+          name: 'unit',
+          environment: 'jsdom',
+          include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+        },
+      },
+      // Storybook tests project
       {
         extends: true,
         plugins: [
