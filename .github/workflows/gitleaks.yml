@@ -1,4 +1,4 @@
-name: Gitleaks
+name: gitleaks
 
 on:
   push:

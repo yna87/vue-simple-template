@@ -1,4 +1,4 @@
-name: CI Storybook
+name: ci-storybook
 
 on:
   push:
