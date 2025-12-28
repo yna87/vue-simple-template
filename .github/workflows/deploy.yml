@@ -1,4 +1,4 @@
-name: Deploy to CloudFront
+name: deploy-frontend
 
 on:
   # Manual trigger only by default
@@ -42,7 +42,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Deploy to S3
+      - name: Upload to S3
         run: |
           aws s3 sync dist/ s3://${{ vars.S3_BUCKET_NAME }}/ --delete
 

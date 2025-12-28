@@ -113,7 +113,7 @@ CI の実行時間を短縮するため、以下のキャッシュが設定さ�
 
 - AWS CDK による Infrastructure as Code
 - GitHub Actions OIDC 認証（アクセスキー不要）
-- デフォルトは手動デプロイ（GitHub Actions の「Deploy to CloudFront」ワークフローを手動実行）
+- デフォルトは手動デプロイ（GitHub Actions の「deploy-frontend」ワークフローを手動実行）
 
 ### 自動デプロイの有効化
 

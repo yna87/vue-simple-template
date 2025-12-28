@@ -117,7 +117,7 @@ GitHub Actionsからデプロイできるように、以下の値をリポジト
 ### 手動デプロイ（デフォルト）
 
 1. GitHubリポジトリの **Actions** タブに移動
-2. **Deploy to CloudFront** ワークフローを選択
+2. **deploy-frontend** ワークフローを選択
 3. **Run workflow** をクリック
 
 ### 自動デプロイの有効化
