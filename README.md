@@ -18,9 +18,12 @@ Vue 3 + TypeScript + Vite をベースにした、モダンなフロントエン
   - Vue Test Utils - Vue コンポーネントのテストユーティリティ
   - jsdom - DOM 環境のシミュレーション
 - **GitHub Actions** - CI/CD パイプライン
-  - フロントエンドの型チェック・Lint・テスト・ビルド
+  - CI: 型チェック・Lint・テスト・ビルド検証
   - Storybook のビルド・テスト
   - Gitleaks による機密情報スキャン
+  - CD: CloudFront + S3 へのデプロイ
+- **AWS CDK** - インフラストラクチャコード
+  - CloudFront + S3 による静的ホスティング
 
 ## このテンプレートの使い方
 
@@ -103,6 +106,16 @@ CI の実行時間を短縮するため、以下のキャッシュが設定さ�
 - **Playwright ブラウザキャッシュ** - ブラウザのダウンロード時間を短縮（約1-2分）
 
 キャッシュは `pnpm-lock.yaml` の変更時に自動的に更新されます。
+
+## デプロイ
+
+このテンプレートには、CloudFront + S3 を使用した AWS デプロイ機能が含まれています（オプション）。
+
+- AWS CDK による Infrastructure as Code
+- GitHub Actions OIDC 認証（アクセスキー不要）
+- デフォルトは手動デプロイ、自動デプロイも簡単に有効化可能
+
+詳細なセットアップ手順は [infra/README.md](infra/README.md) を参照してください。
 
 ## ライセンス
 
