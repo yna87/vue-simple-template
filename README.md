@@ -1,14 +1,59 @@
-# Vue 3 + TypeScript + Vite
+# Vue Simple Template
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Vue 3 + TypeScript + Vite をベースにした、モダンなフロントエンド開発環境のテンプレートリポジトリです。
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## 特徴
 
-# セットアップ内容
+このテンプレートには以下のツールが設定済みです：
 
-Vite https://vite.dev/guide/
-Tailwind CSS https://tailwindcss.com/docs/installation/using-vite
-Eslint https://eslint.org/docs/latest/use/getting-started
-Prettier https://prettier.io/docs/install
-eslint-config-prettier https://github.com/prettier/eslint-config-prettier#installation
-Storybook
+- **Vue 3** - プログレッシブフレームワーク（`<script setup>` 構文を使用）
+- **TypeScript** - 型安全な開発環境
+- **Vite** - 高速なビルドツール
+- **Tailwind CSS v4** - ユーティリティファーストの CSS フレームワーク
+- **ESLint** - コード品質チェック
+- **Prettier** - コードフォーマッター
+- **Storybook** - UI コンポーネント開発・テスト環境
+  - Storybook Test (addon-vitest) - ストーリーベースのテスト
+
+## このテンプレートの使い方
+
+### GitHub でテンプレートリポジトリとして使用する
+
+1. このリポジトリのページで「Use this template」ボタンをクリック
+2. 新しいリポジトリ名を入力して作成
+3. 作成したリポジトリをクローン
+
+```bash
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+cd YOUR_REPO_NAME
+```
+
+### ローカルでセットアップ
+
+```bash
+# 依存関係のインストール
+pnpm install
+
+# 開発サーバーの起動
+pnpm dev
+```
+
+## 利用可能なコマンド
+
+```bash
+# 開発サーバーの起動
+pnpm dev
+
+# コードの lint チェック
+pnpm lint
+
+# コードのフォーマット
+pnpm format
+
+# Storybook の起動
+pnpm storybook
+```
+
+## ライセンス
+
+[MIT License](LICENSE)
