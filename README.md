@@ -17,6 +17,10 @@ Vue 3 + TypeScript + Vite をベースにした、モダンなフロントエン
 - **Vitest** - 高速なユニットテストフレームワーク
   - Vue Test Utils - Vue コンポーネントのテストユーティリティ
   - jsdom - DOM 環境のシミュレーション
+- **GitHub Actions** - CI/CD パイプライン
+  - フロントエンドの型チェック・Lint・テスト・ビルド
+  - Storybook のビルド・テスト
+  - Gitleaks による機密情報スキャン
 
 ## このテンプレートの使い方
 
@@ -47,6 +51,9 @@ pnpm dev
 # 開発サーバーの起動
 pnpm dev
 
+# Storybook の起動
+pnpm storybook
+
 # テストの実行
 pnpm test              # すべてのテストを実行
 pnpm test:unit         # ユニットテストのみ実行
@@ -58,12 +65,33 @@ pnpm lint
 # コードのフォーマット
 pnpm format
 
-# Storybook の起動
-pnpm storybook
+# 型チェック
+pnpm type-check
 
 # プロダクションビルド
 pnpm build
 ```
+
+## CI/CD
+
+このテンプレートには GitHub Actions を使用した CI/CD パイプラインが設定されています。
+
+### ワークフロー
+
+- **ci-frontend** - フロントエンドの品質チェック
+  - 型チェック（TypeScript）
+  - Lint チェック（ESLint）
+  - ユニットテスト（Vitest）
+  - ビルド検証
+
+- **ci-storybook** - Storybook のテスト
+  - Storybook のビルド検証
+  - ストーリーベースのテスト実行
+
+- **gitleaks** - セキュリティスキャン
+  - 機密情報（API キー、パスワードなど）の検出
+
+すべてのワークフローは `main` ブランチへの push と pull request 時に自動実行されます。
 
 ## ライセンス
 
