@@ -14,6 +14,9 @@ Vue 3 + TypeScript + Vite をベースにした、モダンなフロントエン
 - **Prettier** - コードフォーマッター
 - **Storybook** - UI コンポーネント開発・テスト環境
   - Storybook Test (addon-vitest) - ストーリーベースのテスト
+- **Vitest** - 高速なユニットテストフレームワーク
+  - Vue Test Utils - Vue コンポーネントのテストユーティリティ
+  - jsdom - DOM 環境のシミュレーション
 
 ## このテンプレートの使い方
 
@@ -44,6 +47,11 @@ pnpm dev
 # 開発サーバーの起動
 pnpm dev
 
+# テストの実行
+pnpm test              # すべてのテストを実行
+pnpm test:unit         # ユニットテストのみ実行
+pnpm test:storybook    # Storybook テストのみ実行
+
 # コードの lint チェック
 pnpm lint
 
@@ -52,6 +60,9 @@ pnpm format
 
 # Storybook の起動
 pnpm storybook
+
+# プロダクションビルド
+pnpm build
 ```
 
 ## ライセンス
