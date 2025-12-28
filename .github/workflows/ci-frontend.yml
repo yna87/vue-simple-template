@@ -29,10 +29,8 @@ jobs:
       - name: Cache Vite build
         uses: actions/cache@v4
         with:
-          path: |
-            node_modules/.vite
-            .vite
-          key: ${{ runner.os }}-vite-${{ hashFiles('**/pnpm-lock.yaml') }}
+          path: node_modules/.vite
+          key: ${{ runner.os }}-vite-${{ hashFiles('**/pnpm-lock.yaml', 'vite.config.ts') }}
           restore-keys: |
             ${{ runner.os }}-vite-
 
@@ -40,7 +38,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules/.vitest
-          key: ${{ runner.os }}-vitest-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-vitest-${{ hashFiles('**/pnpm-lock.yaml', 'vite.config.ts') }}
           restore-keys: |
             ${{ runner.os }}-vitest-
 
