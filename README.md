@@ -24,6 +24,7 @@ Vue 3 + TypeScript + Vite をベースにした、モダンなフロントエン
   - CD: CloudFront + S3 へのデプロイ
 - **AWS CDK** - インフラストラクチャコード
   - CloudFront + S3 による静的ホスティング
+  - CloudFront Function による Basic 認証（オプション）
 
 ## このテンプレートの使い方
 
