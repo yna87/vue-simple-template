@@ -29,6 +29,23 @@ const stackName = process.env.STACK_NAME || `${githubRepo}Stack`;
 // Optional: ARN of existing GitHub OIDC Provider (if already exists in AWS account)
 const githubOidcProviderArn = process.env.GITHUB_OIDC_PROVIDER_ARN;
 
+// Optional: Basic Auth credentials
+const basicAuthUser = process.env.BASIC_AUTH_USER;
+const basicAuthPass = process.env.BASIC_AUTH_PASS;
+
+// Validate Basic Auth configuration
+if (
+  (basicAuthUser && !basicAuthPass) ||
+  (!basicAuthUser && basicAuthPass)
+) {
+  throw new Error(
+    '\n❌ Both BASIC_AUTH_USER and BASIC_AUTH_PASS must be set to enable Basic Auth!\n\n' +
+      '💡 Update your .env file:\n' +
+      '   BASIC_AUTH_USER=admin\n' +
+      '   BASIC_AUTH_PASS=your-secure-password\n'
+  );
+}
+
 new FrontendStack(app, stackName, {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
@@ -37,4 +54,6 @@ new FrontendStack(app, stackName, {
   githubOrg,
   githubRepo,
   githubOidcProviderArn,
+  basicAuthUser,
+  basicAuthPass,
 });

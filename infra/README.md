@@ -34,9 +34,14 @@ GITHUB_REPO=your-repo-name       # リポジトリ名
 
 # Optional: 既存のOIDC Provider ARNがあれば設定
 # GITHUB_OIDC_PROVIDER_ARN=arn:aws:iam::123456789012:oidc-provider/token.actions.githubusercontent.com
+
+# Optional: Basic認証を有効にする場合（コメントアウトを解除）
+# BASIC_AUTH_USER=admin
+# BASIC_AUTH_PASS=your-secure-password
 ```
 
 **重要**:
+
 - `.env` ファイルは `.gitignore` で除外されており、Gitにコミットされません
 - Stack名はリポジトリ名から自動生成されます（例: `my-project` → `my-projectStack`）
 - これにより、同じAWSアカウントで複数のプロジェクトをデプロイしてもリソース名が衝突しません
@@ -95,8 +100,8 @@ GitHub Actionsからデプロイできるように、以下の値をリポジト
 1. GitHubリポジトリの **Settings** > **Secrets and variables** > **Actions** > **Secrets** タブに移動
 2. 以下のSecretを追加：
 
-| Secret名 | 値 | 説明 |
-|---------|-----|------|
+| Secret名       | 値                                | 説明                           |
+| -------------- | --------------------------------- | ------------------------------ |
 | `AWS_ROLE_ARN` | CDKの出力: `GitHubActionsRoleArn` | GitHub Actions用のIAMロールARN |
 
 #### Variables の設定
@@ -104,10 +109,10 @@ GitHub Actionsからデプロイできるように、以下の値をリポジト
 1. **Settings** > **Secrets and variables** > **Actions** > **Variables** タブに移動
 2. 以下のVariablesを追加：
 
-| Variable名 | 値 | 説明 |
-|---------|-----|------|
-| `AWS_REGION` | 例: `ap-northeast-1` | AWSリージョン（デフォルト: 東京） |
-| `S3_BUCKET_NAME` | CDKの出力: `BucketName` | S3バケット名 |
+| Variable名                   | 値                          | 説明                               |
+| ---------------------------- | --------------------------- | ---------------------------------- |
+| `AWS_REGION`                 | 例: `ap-northeast-1`        | AWSリージョン（デフォルト: 東京）  |
+| `S3_BUCKET_NAME`             | CDKの出力: `BucketName`     | S3バケット名                       |
 | `CLOUDFRONT_DISTRIBUTION_ID` | CDKの出力: `DistributionId` | CloudFrontディストリビューションID |
 
 ## デプロイ方法
@@ -160,12 +165,14 @@ npx cdk destroy
 **このテンプレートは個人開発向けに設定されています。**
 
 **削除されるリソース**:
+
 - ✅ S3 バケットとその中のオブジェクト（全て削除されます）
 - ✅ CloudFront Distribution
 - ✅ CloudFront Origin Access Control
 - ✅ IAM Role（GitHub Actions用）
 
 **削除されないリソース**:
+
 - ⚠️ **GitHub OIDC Provider**: 他のプロジェクトでも使用される可能性があるため、常に保持されます
   - 不要な場合は、以下のコマンドで手動削除できます：
     ```bash
@@ -173,6 +180,7 @@ npx cdk destroy
     ```
 
 **プロダクション環境で使用する場合**: `lib/frontend-stack.ts` で以下の設定を変更してください：
+
 ```typescript
 removalPolicy: cdk.RemovalPolicy.RETAIN,  // バケットを保持
 autoDeleteObjects: false,                  // オブジェクトを保持
@@ -194,6 +202,44 @@ aws iam list-open-id-connect-providers
 ```
 
 環境変数を設定しない場合は、新しいOIDC Providerが自動的に作成されます。
+
+## Basic認証の設定
+
+デプロイしたアプリケーションにBasic認証をかけることができます。
+
+### Basic認証を有効にする
+
+`.env` ファイルに以下の設定を追加してください：
+
+```bash
+# Basic認証の有効化
+BASIC_AUTH_USER=admin
+BASIC_AUTH_PASS=your-secure-password
+```
+
+**セキュリティのヒント**:
+
+- パスワードは十分に複雑なものを使用してください
+- `.env` ファイルは `.gitignore` で除外されているため、Gitにコミットされません
+- 本番環境では、より強固な認証方式の使用を検討してください
+
+### Basic認証を無効にする
+
+Basic認証を無効にしたい場合は、`.env` ファイルから `BASIC_AUTH_USER` と `BASIC_AUTH_PASS` をコメントアウトまたは削除して、再デプロイしてください。
+
+```bash
+pnpm run deploy
+```
+
+### 仕組み
+
+Basic認証は CloudFront Functions を使用して実装されています。これにより：
+
+- 低コスト（Lambda@Edgeより安価）
+- レスポンスが速い
+- 管理が簡単
+
+すべてのリクエストに対してBasic認証が求められます。正しい認証情報を入力しないとアクセスできません。
 
 ## トラブルシューティング
 

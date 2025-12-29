@@ -4,11 +4,15 @@ import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
+import * as fs from 'fs';
+import * as path from 'path';
 
 interface FrontendStackProps extends cdk.StackProps {
   githubOrg: string;
   githubRepo: string;
   githubOidcProviderArn?: string; // Optional: Reuse existing OIDC Provider instead of creating a new one
+  basicAuthUser?: string; // Optional: Enable Basic Auth
+  basicAuthPass?: string; // Optional: Enable Basic Auth
 }
 
 export class FrontendStack extends cdk.Stack {
@@ -34,6 +38,31 @@ export class FrontendStack extends cdk.Stack {
       }
     );
 
+    // CloudFront Function for Basic Auth (optional)
+    let basicAuthFunction: cloudfront.Function | undefined;
+    if (props.basicAuthUser && props.basicAuthPass) {
+      // Read the function code template
+      const functionCodeTemplate = fs.readFileSync(
+        path.join(__dirname, 'functions', 'basic-auth.js'),
+        'utf8'
+      );
+
+      // Encode credentials to Base64 (CloudFront Functions don't have btoa)
+      const credentials = `${props.basicAuthUser}:${props.basicAuthPass}`;
+      const base64Credentials = Buffer.from(credentials).toString('base64');
+
+      // Replace placeholders with actual values
+      const functionCode = functionCodeTemplate
+        .replace('%%BASIC_AUTH_BASE64%%', base64Credentials)
+        .replace('%%REALM%%', props.githubRepo);
+
+      basicAuthFunction = new cloudfront.Function(this, 'BasicAuthFunction', {
+        code: cloudfront.FunctionCode.fromInline(functionCode),
+        comment: 'Basic Authentication for CloudFront',
+        runtime: cloudfront.FunctionRuntime.JS_2_0,
+      });
+    }
+
     // CloudFront Distribution
     // Note: S3BucketOrigin.withOriginAccessControl() automatically updates the bucket policy
     const distribution = new cloudfront.Distribution(this, 'Distribution', {
@@ -43,6 +72,14 @@ export class FrontendStack extends cdk.Stack {
         }),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
+        functionAssociations: basicAuthFunction
+          ? [
+              {
+                function: basicAuthFunction,
+                eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
+              },
+            ]
+          : undefined,
       },
       defaultRootObject: 'index.html',
       errorResponses: [
