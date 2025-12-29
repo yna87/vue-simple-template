@@ -4,6 +4,6 @@ import HelloWorld from './components/HelloWorld.vue';
 
 <template>
   <div class="min-h-screen flex items-center justify-center">
-    <HelloWorld msg="Welcome to Vue Simple Template" />
+    <HelloWorld msg="Welcome to Vue Simple Template New" />
   </div>
 </template>
