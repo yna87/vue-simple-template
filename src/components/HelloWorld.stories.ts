@@ -23,28 +23,27 @@ export const Basic: Story = {}
 
 // Test Counter
 export const Counter: Story = {
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, userEvent }) => {
     const canvas = within(canvasElement)
 
     // Get button elements
-    const countUpButton = await canvas.getByRole('button', { name: '+' })
-    const countDownButton = await canvas.getByRole('button', { name: '-' })
-    const resetButton = await canvas.getByRole('button', { name: 'Reset' })
+    const countUpButton = canvas.getByRole('button', { name: '+' })
+    const countDownButton = canvas.getByRole('button', { name: '-' })
+    const resetButton = canvas.getByRole('button', { name: 'Reset' })
 
     // Check initial count value
-    const countValue = await canvas.getByText('Count: 0')
-    await expect(countValue).toBeInTheDocument()
+    await expect(canvas.getByText('Count: 0')).toBeInTheDocument()
 
     // Click the count up button
-    await countUpButton.click()
+    await userEvent.click(countUpButton)
     await expect(canvas.getByText('Count: 1')).toBeInTheDocument()
 
     // Click the reset button
-    await resetButton.click()
+    await userEvent.click(resetButton)
     await expect(canvas.getByText('Count: 0')).toBeInTheDocument()
 
     // Click the count down button
-    await countDownButton.click()
+    await userEvent.click(countDownButton)
     await expect(canvas.getByText('Count: -1')).toBeInTheDocument()
   },
 }
