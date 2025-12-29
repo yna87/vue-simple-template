@@ -124,7 +124,7 @@ export class FrontendStack extends cdk.Stack {
         }
       );
       // Always retain OIDC Provider to avoid breaking other projects that may reference it
-      provider.applyRemovalPolicy(cdk.RemovalPolicy.RETAIN);
+      (provider.node.defaultChild as cdk.CfnResource).applyRemovalPolicy(cdk.RemovalPolicy.RETAIN);
       githubOidcProvider = provider;
     }
 
