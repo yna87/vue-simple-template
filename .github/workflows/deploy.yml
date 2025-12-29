@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
 
   # Uncomment the following lines to enable automatic deployment on push to main
-  push:
-    branches: [main]
+  # push:
+  #   branches: [main]
 
 # Required for OIDC authentication
 permissions:
