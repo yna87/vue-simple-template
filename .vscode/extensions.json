@@ -1,12 +1,12 @@
 {
   "recommendations": [
+    "eamodio.gitlens",
+    "mhutchie.git-graph",
     "vue.volar",
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
+    "antfu.vite",
+    "ms-vscode.vscode-typescript-next",
     "bradlc.vscode-tailwindcss",
-    "editorconfig.editorconfig",
-    "lokalise.i18n-ally",
-    "anthropic.claude-code",
-    "eamodio.gitlens"
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
   ]
 }
